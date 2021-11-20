@@ -1,11 +1,12 @@
 import bdw, os
+from bdw.Intents import *
 
 auth = os.environ["auth"]
 
 def test_bot_working():
-  # bot = bdw.Bot(auth, [])
-  # bot.start()
-  print(bdw.comm.APIcall)
-  # g = bdw.Guild(bot.guilds[0]["id"],auth)
-  # g.channels[2].send("duck???")
+  bot = bdw.Bot([INTENTS.GUILD_MESSAGES, INTENTS.GUILDS])
+  @bot.event
+  def ready():
+    print("lets goo")
+  bot.start(auth)
   assert 5 == 6 # i still want all print statements to actually, well, print so that is why i do assertion error
