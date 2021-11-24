@@ -50,7 +50,7 @@ class Bot:
       self.heartbeatthread.start() 
     if data["op"] == 0:
       if self.events.__contains__(data["t"]):
-        self.events[data["t"]]()
+        self.events[data["t"]](data["d"])
   def on_close(self, ws, status, msg):
     print("Closed connection with status code"+str(status)+". Last message: \n"+msg)
   def on_error(self, ws, err):

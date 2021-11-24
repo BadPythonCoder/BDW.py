@@ -8,3 +8,5 @@ from .Guild import *
 from .Bot import *
 from .Channel import *
 from .Intents import *
+from .Message import *
+from .User import *
