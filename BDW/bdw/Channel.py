@@ -1,5 +1,6 @@
 from .comm import *
 from .Embed import Embed
+from .ext.components import *
 
 class Channel:
   def __init__(self, rawdata, bot):
@@ -9,7 +10,6 @@ class Channel:
     self.position = rawdata["position"]
     self.name = rawdata["name"]
     self.nsfw = rawdata["nsfw"]
-    self.guild = rawdata["guild_id"]
     self.parent_id = rawdata["parent_id"]
     self.permission_overwries = rawdata["permission_overwrites"]
     if rawdata["type"] == 0:
@@ -31,18 +31,22 @@ class Channel:
       self.bitrate = rawdata["bitrate"]
       self.userlimit = rawdata["user_limit"]
       self.region = rawdata["rtc_region"]
-  def send(self, content=None, embeds=[], tts=False):
+  def send(self, content=None, embeds=[], components= [], tts=False):
     if self.type == "text_channel" or self.type == "announcement_channel":
       embedsreal = []
+      componentsreal = []
       for embedobj in embeds:
         if isinstance(embedobj, Embed):
           embedsreal.append(embedobj.getObj())
         else:
           embedsreal.append(embedobj);
+      for componentobj in components:
+        componentsreal.append(componentobj.getOBJ())
       APIcall(f"/channels/{self.id}/messages", "POST", self.bot.auth, {
         "content": content,
         "tts": tts,
-        "embeds": embedsreal
+        "embeds": embedsreal,
+        "components": componentsreal
       })
     else:
       raise APIerror("Cannot send in a non-text channel")

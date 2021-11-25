@@ -1,18 +1,15 @@
 class Embed:
   def __init__(self, title, desc, color=0):
-    self.title = title
-    self.description = desc
-    self.fields = []
-    self.color = color
+    self.embedOBJ = {"title": title, "description": desc, "fields": [], "color": color, "footer": {}}
     self.footer = {}
-    self.thumbanil = {}
+    self.thumbnail = {}
     self.author = {}
   def add_field(self, name, value, inline=False):
     field = {"name": name, "value": value, "inline":inline}
-    self.fields.append(field)
+    self.embedOBJ["fields"].append(field)
   def set_footer(self, text, footerIMG=""):
     footerOBJ = {"text": text,"icon_url":footerIMG}
-    self.footer = footerOBJ
+    self.embedOBJ["footer"] = footerOBJ
   def set_author(self, name, url="", authorIMG=""):
     authorOBJ = {"name": name, "url": url,"icon_url":authorIMG}
     self.author = authorOBJ
@@ -21,4 +18,4 @@ class Embed:
     self.thumbnail = thumbnailOBJ
   def getObj(self):
     embedObj = {"title":self.title,"description":self.description,"fields":self.fields,"color":self.color, "footer":self.footer,"author":self.author,"thumbnail":self.thumbnail}
-    return embedObj # ok am done
+    return embedObj
