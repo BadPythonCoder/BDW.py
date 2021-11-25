@@ -1,4 +1,5 @@
 from .comm import *
+from .Embed import Embed
 
 class Channel:
   def __init__(self, rawdata, bot):
@@ -30,12 +31,18 @@ class Channel:
       self.bitrate = rawdata["bitrate"]
       self.userlimit = rawdata["user_limit"]
       self.region = rawdata["rtc_region"]
-  def send(self, content, embeds=[], tts=False):
+  def send(self, content=None, embeds=[], tts=False):
     if self.type == "text_channel" or self.type == "announcement_channel":
+      embedsreal = []
+      for embedobj in embeds:
+        if isinstance(embedobj, Embed):
+          embedsreal.append(embedobj.getObj())
+        else:
+          embedsreal.append(embedobj);
       APIcall(f"/channels/{self.id}/messages", "POST", self.bot.auth, {
         "content": content,
         "tts": tts,
-        "embeds": embeds
+        "embeds": embedsreal
       })
     else:
       raise APIerror("Cannot send in a non-text channel")
