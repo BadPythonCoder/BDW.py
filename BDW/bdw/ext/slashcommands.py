@@ -1,3 +1,9 @@
+from bdw.comm import *
+from bdw.Guild import *
+from bdw.Message import *
+from bdw.Channel import *
+from .Interaction import *
+
 class ActionRow:
   componentOBJ = {}
   def __init__(self, components):
@@ -22,3 +28,12 @@ class Button:
     self.componentOBJ["enable"] = True
   def getOBJ(self):
     return self.componentOBJ
+
+class Slashcommand:
+  def __init__(self, name, description, bot):
+    self.bot = bot
+    self.SCOBJ = {"name": name,"description":description,"type":1,"options":[]}
+  def register(self):
+    appid = APIcall("/users/@me", "GET",self.bot.auth,{})["id"]
+    APIcall(f"/applications/{appid}/commands","POST",self.bot.auth,self.SCOBJ)
+    

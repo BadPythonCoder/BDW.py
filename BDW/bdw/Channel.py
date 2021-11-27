@@ -1,6 +1,5 @@
 from .comm import *
 from .Embed import Embed
-from .ext.components import *
 
 class Channel:
   def __init__(self, rawdata, bot):

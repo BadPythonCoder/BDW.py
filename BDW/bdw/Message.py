@@ -2,7 +2,6 @@ from .comm import *
 from .Channel import *
 from .Guild import *
 from .User import *
-from .ext.components import *
 
 class Message:
   id = 0
@@ -21,7 +20,6 @@ class Message:
   components = [] # EH
   def __init__(self, dataraw, bot):
     self.id = dataraw["id"]
-    self.channel = Channel(APIcall(f"/channels/{dataraw['channel_id']}", "GET", bot.auth, {}), bot)
     self.author = dataraw["author"]["id"]
     self.author = User(APIcall(f"/users/{self.author}", "GET", bot.auth, None))
     self.msgtype = dataraw["type"]
@@ -33,6 +31,8 @@ class Message:
     self.embeds = dataraw["embeds"]
     self.pinned = dataraw["pinned"]
     self.components = dataraw["components"]
+    if dataraw.__contains__("channel_id"):
+      self.channel = Channel(APIcall(f"/channels/{dataraw['channel_id']}", "GET", bot.auth, {}), bot)
     try:
       self.reaction = dataraw["reactions"]
     except:
