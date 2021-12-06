@@ -2,7 +2,8 @@
 name = "BDW"
 version = "0.1.0"
 description = "A bad discord wrapper for python."
-authors = ["Fox551 <BadPythonCoder@TheInternet.net>","TBSharedAccount <TBSharedAccount@TheInternet.net"]
+authors = ["Fox551 <BadPythonCoder@TheInternet.net>","TBSharedAccount <TBSharedAccount@TheInternet.net",
+"Nixtrome <Nixtrome@TheInternet.net"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

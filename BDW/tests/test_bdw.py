@@ -1,4 +1,4 @@
-import bdw, os
+import bdw, os, time
 from bdw.Intents import *
 from bdw.ext.slashcommands import *
 
@@ -32,5 +32,10 @@ def test_bot_working():
       buton = Button("BUTTONTEST1","this is a test", 1)
       actionrow = ActionRow([buton])
       msg.channel.send("testduck", components=[actionrow])
+    if msg.content == '^editingTest':
+      duc = msg.channel.send("This is a test, this message will be edited in 10 secs.")
+      time.sleep(10)
+      duc.edit('THIS MESSAGE HAS BEEN EDITED BECAUSE 10 SECONDS HAS PASSED, YAY ')
+
   bot.start(auth)
   assert 5 == 6 # i still want all print statements to actually, well, print so that is why i do assertion error

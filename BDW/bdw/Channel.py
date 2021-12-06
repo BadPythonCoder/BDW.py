@@ -1,5 +1,63 @@
 from .comm import *
 from .Embed import Embed
+from .Guild import *
+from .User import *
+from .ext.slashcommands import *
+
+class Message:
+  '''
+  This is used to get the message data, this is technically not implemented because the attachments, embeds, reactions and components are still just raw.
+  '''
+  id = 0
+  channel = None 
+  guild = None
+  author = 0
+  content = ""
+  timestamp = 0
+  etimestamp = 0
+  tts = False
+  attachments = [] # EH
+  embeds = [] # EH
+  reactions = [] # EH
+  pinned = False
+  msgtype = 0
+  components = [] # EH
+  def __init__(self, dataraw, bot):
+    self.id = dataraw["id"]
+    self.author = dataraw["author"]["id"]
+    self.author = User(APIcall(f"/users/{self.author}", "GET", bot.auth, None))
+    self.msgtype = dataraw["type"]
+    self.content = dataraw["content"]
+    self.timestamp = dataraw["timestamp"]
+    self.etimestamp = dataraw["edited_timestamp"]
+    self.tts = dataraw["tts"]
+    self.attachments = dataraw["attachments"]
+    self.embeds = dataraw["embeds"]
+    self.pinned = dataraw["pinned"]
+    self.components = dataraw["components"]
+    if dataraw.__contains__("channel_id"):
+      self.channel = Channel(APIcall(f"/channels/{dataraw['channel_id']}", "GET", bot.auth, {}), bot)
+    try:
+      self.reaction = dataraw["reactions"]
+    except:
+      pass
+    if dataraw.__contains__("guild_id"):
+      self.guild = Guild(dataraw["guild_id"], bot)
+  def edit(self, content=None, embeds=[], components= []):
+    embedsreal = []
+    componentsreal = []
+    for embedobj in embeds:
+      if isinstance(embedobj, Embed):
+        embedsreal.append(embedobj.getObj())
+      else:
+        embedsreal.append(embedobj);
+    for componentobj in components:
+      componentsreal.append(componentobj.getOBJ())
+    APIcall(f"/channels/{self.channel.id}/messages/{self.id}", "PATCH", self.bot.auth, {
+      "content": content,
+      "embeds": embedsreal,
+      "components": componentsreal
+    })
 
 class Channel:
   '''
@@ -44,11 +102,11 @@ class Channel:
           embedsreal.append(embedobj);
       for componentobj in components:
         componentsreal.append(componentobj.getOBJ())
-      APIcall(f"/channels/{self.id}/messages", "POST", self.bot.auth, {
+      return Message(APIcall(f"/channels/{self.id}/messages", "POST", self.bot.auth, {
         "content": content,
         "tts": tts,
         "embeds": embedsreal,
         "components": componentsreal
-      })
+      }),self.bot)
     else:
       raise APIerror("Cannot send in a non-text channel")
