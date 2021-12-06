@@ -1,4 +1,3 @@
-from bdw.Message import *
 from bdw.comm import *
 from bdw.Channel import *
 from bdw.User import *

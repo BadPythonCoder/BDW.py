@@ -1,6 +1,5 @@
 from bdw.comm import *
 from bdw.Guild import *
-from bdw.Message import *
 from bdw.Channel import *
 from .Interaction import *
 
