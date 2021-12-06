@@ -74,3 +74,6 @@ class Bot:
     self.auth = auth
     self.wst = threading.Thread(target=self.botws.run_forever)
     self.wst.start()
+  def __repr__(self):
+    usr = APIcall("/users/@me", "GET", self.auth, {})
+    return usr['username']+"#"+str(usr['discriminator'])
