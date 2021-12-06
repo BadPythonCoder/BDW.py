@@ -14,14 +14,24 @@ class ActionRow:
   def getOBJ(self):
     return self.componentOBJ
 
+class ButtonType:
+  PRIMARY = 1
+  SECONDARY = 2
+  SUCCESS = 3
+  DANGER = 4
+  LINK = 5
+
 class Button:
   componentOBJ = {}
-  def __init__(self, id, name, buttontype, enabled=True):
-    self.componentOBJ["custom_id"] = id
+  def __init__(self, name, buttontype=1, id="", url="", enabled=True):
     self.componentOBJ["label"] = name
     self.componentOBJ["type"] = 2
     self.componentOBJ["style"] = buttontype
     self.componentOBJ["disabled"] = not enabled
+    if not buttontype == ButtonType.LINK:
+      self.componentOBJ["custom_id"] = id
+    else:
+      self.componentOBJ["url"] = url
   def disable(self):
     self.componentOBJ["disabled"] = True
   def enable(self):
@@ -42,9 +52,18 @@ def registerCommands(cmds, bot):
     return None
   appid = APIcall("/users/@me", "GET",cmds[0].bot.auth,{})["id"]
   alreadyExisting = []
-  ASCOBJS = APIcall(f"/applications/{appid}/commands", "POST", cmds[0].bot.auth, {})
+  ASCOBJS = APIcall(f"/applications/{appid}/commands", "GET", cmds[0].bot.auth, {})
   for scobj in ASCOBJS:
     alreadyExisting.append(scobj['name'])
   for cmd in cmds:
-    if not cmd.scobj["name"] in alreadyExisting:
+    if not cmd.SCOBJ["name"] in alreadyExisting:
       cmd.register()
+  ASCOBJS = APIcall(f"/applications/{appid}/commands", "GET", cmds[0].bot.auth, {})
+  alreadyExisting = []
+  for scobj in ASCOBJS:
+    # alreadyExisting.append(scobj['name'])
+    qaq = []
+    for cmd in cmds:
+      qaq.append(cmd.SCOBJ["name"])
+    if not scobj['name'] in qaq:
+      ASCOBJS = APIcall(f"/applications/{appid}/commands/{scobj['id']}", "DELETE", cmds[0].bot.auth, {})

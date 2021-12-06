@@ -16,6 +16,6 @@ class Embed:
   def set_thumbnail(self, url, width=100, height=100):
     thumbnailOBJ = {"url": url,"width":width,"height":height}
     self.thumbnail = thumbnailOBJ
-  def getObj(self):
+  def getObj(self) -> dict:
     embedObj = {"title":self.title,"description":self.description,"fields":self.fields,"color":self.color, "footer":self.footer,"author":self.author,"thumbnail":self.thumbnail}
     return embedObj

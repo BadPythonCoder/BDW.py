@@ -21,5 +21,5 @@ class IG:
     self.intentCalc = self.intents[0]
     for intent in intents[1:]:
       self.intentCalc = self.intentCalc | intent
-  def getIntent(self):
+  def getIntent(self) -> int:
     return self.intentCalc

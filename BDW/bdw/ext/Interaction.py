@@ -29,7 +29,6 @@ class Interaction:
       self.channel = Channel(APIcall(f"/channels/{self.channel}", "GET", bot.auth, {}), bot)
     if data.__contains__("data"):
       self.data = data["data"]
-      print(self.data)
   def respond(self, content):
     APIcall(f"/interactions/{self.id}/{self.token}/callback", 'POST', self.bot.auth, {
       "type": 4,

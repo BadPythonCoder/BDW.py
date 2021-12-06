@@ -54,7 +54,8 @@ class Bot:
   def on_close(self, ws, status, msg):
     print("Closed connection with status code"+str(status)+". Last message: \n"+msg)
   def on_error(self, ws, err):
-    print("ERROR: \n"+str(err))
+    if not str(err).startswith("Expecting value: line"):
+      print("ERROR: \n"+str(err))
   def on_ready(self, ws):
     pass
   # Gateway stuff end
