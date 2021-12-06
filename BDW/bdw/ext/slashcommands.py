@@ -5,6 +5,9 @@ from bdw.Channel import *
 from .Interaction import *
 
 class ActionRow:
+  '''
+  This is used to hold components. Only requires one argument called, well, components.
+  '''
   componentOBJ = {}
   def __init__(self, components):
     self.componentOBJ["components"] = []
@@ -15,6 +18,9 @@ class ActionRow:
     return self.componentOBJ
 
 class ButtonType:
+  '''
+  Contains all button types
+  '''
   PRIMARY = 1
   SECONDARY = 2
   SUCCESS = 3
@@ -22,6 +28,8 @@ class ButtonType:
   LINK = 5
 
 class Button:
+  '''
+  This hold a button object, requires a name and either an id or url, there are also buttontype and enabled which are 1 and True by default.'''
   componentOBJ = {}
   def __init__(self, name, buttontype=1, id="", url="", enabled=True):
     self.componentOBJ["label"] = name
@@ -40,6 +48,8 @@ class Button:
     return self.componentOBJ
 
 class Slashcommand:
+  '''
+  This creates a slashcommand which requires a name, a description and the bot object. Options are not implemented yet.'''
   def __init__(self, name, description, bot):
     self.bot = bot
     self.SCOBJ = {"name": name,"description":description,"type":1,"options":[]}
@@ -48,6 +58,9 @@ class Slashcommand:
     APIcall(f"/applications/{self.appid}/commands","POST",self.bot.auth,self.SCOBJ)
 
 def registerCommands(cmds, bot):
+  '''
+  This requires the commands and the bot object, it adds the not registered ones and deletes the removed ones.
+  '''
   if len(cmds) == 0:
     return None
   appid = APIcall("/users/@me", "GET",cmds[0].bot.auth,{})["id"]

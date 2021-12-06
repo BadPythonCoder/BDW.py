@@ -2,6 +2,9 @@ from .comm import *
 from .Channel import *
 
 class Guild:
+  '''
+  This object is used to interact with guilds, but this works a bit diffrently because its not possible to just put the raw data into the guild, you have to only put the id, which can be useful or annoying. This might get changed.
+  '''
   def __init__(self, id, bot):
     self.bot = bot
     self.raw = APIcall(f"/guilds/{id}", "GET", self.bot.auth, {});

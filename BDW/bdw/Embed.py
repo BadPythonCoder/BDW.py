@@ -1,4 +1,7 @@
 class Embed:
+  '''
+  This object is used to send embeds.
+  '''
   def __init__(self, title, desc, color=0):
     self.embedOBJ = {"title": title, "description": desc, "fields": [], "color": color, "footer": {}}
     self.footer = {}

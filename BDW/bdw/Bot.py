@@ -3,6 +3,9 @@ from .Intents import *
 import websocket, threading, json, time
 
 class Bot:
+  '''
+  This is the main library for constructing the bots. It requires a list of intents and you will receive events accordingly of the inputted intents. To interact with an event you need to use the @bot.event decorator with the function name being the event. You get d as the argument which is the raw json of the event which you can put into another object to use the data unless you want it raw. You can use method bot.start(auth) to run the bot. Note that nothing is async... because yes.
+  '''
   def __init__(self, intents=[]):
     self.guilds = []
     self.intents = IG(intents)

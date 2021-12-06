@@ -1,6 +1,5 @@
 import requests
 
-# Best error handling of **all time**
 class APIerror(Exception):
   pass
 def APIcall(URI, type, auth, payload):

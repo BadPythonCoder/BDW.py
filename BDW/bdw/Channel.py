@@ -2,6 +2,9 @@ from .comm import *
 from .Embed import Embed
 
 class Channel:
+  '''
+  This is the channel object which uses the rawdata from an event or somewhere else and uses the bot for authorization.
+  '''
   def __init__(self, rawdata, bot):
     self.bot = bot
     self.raw = rawdata

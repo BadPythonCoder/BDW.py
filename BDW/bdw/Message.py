@@ -4,9 +4,12 @@ from .Guild import *
 from .User import *
 
 class Message:
+  '''
+  This is used to get the message data, this is technically not implemented because the attachments, embeds, reactions and components are still just raw.
+  '''
   id = 0
   channel = None 
-  # guild = None
+  guild = None
   author = 0
   content = ""
   timestamp = 0
@@ -37,5 +40,5 @@ class Message:
       self.reaction = dataraw["reactions"]
     except:
       pass
-    # if dataraw.__contains__("guild_id"):
-    #   self.guild = Guild(dataraw["guild_id"], bot)
+    if dataraw.__contains__("guild_id"):
+      self.guild = Guild(dataraw["guild_id"], bot)
