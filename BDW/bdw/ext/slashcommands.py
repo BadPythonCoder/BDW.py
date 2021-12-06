@@ -34,6 +34,17 @@ class Slashcommand:
     self.bot = bot
     self.SCOBJ = {"name": name,"description":description,"type":1,"options":[]}
   def register(self):
-    appid = APIcall("/users/@me", "GET",self.bot.auth,{})["id"]
-    APIcall(f"/applications/{appid}/commands","POST",self.bot.auth,self.SCOBJ)
-    
+    self.appid = APIcall("/users/@me", "GET",self.bot.auth,{})["id"]
+    APIcall(f"/applications/{self.appid}/commands","POST",self.bot.auth,self.SCOBJ)
+
+def registerCommands(cmds, bot):
+  if len(cmds) == 0:
+    return None
+  appid = APIcall("/users/@me", "GET",cmds[0].bot.auth,{})["id"]
+  alreadyExisting = []
+  ASCOBJS = APIcall(f"/applications/{appid}/commands", "POST", cmds[0].bot.auth, {})
+  for scobj in ASCOBJS:
+    alreadyExisting.append(scobj['name'])
+  for cmd in cmds:
+    if not cmd.scobj["name"] in alreadyExisting:
+      cmd.register()

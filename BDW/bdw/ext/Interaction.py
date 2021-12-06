@@ -34,6 +34,9 @@ class Interaction:
     APIcall(f"/interactions/{self.id}/{self.token}/callback", 'POST', self.bot.auth, {
       "type": 4,
       "data" : {
-        "content": content
+        "content": content,
+        "tts": False,
+        "embeds": [],
+        "allowed_mentions": { "parse": [] }
       }
     })

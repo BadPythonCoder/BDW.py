@@ -9,13 +9,15 @@ def test_bot_working():
   testcmd = Slashcommand("test", "This is a test!", bot)
   @bot.event
   def ready(d):
-    testcmd.register()
+    # testcmd.register()
+    registerCommands([testcmd], bot)
     print("lets goo")
   @bot.event
   def interaction_create(d):
+    print("interaction received")
     interaction = Interaction(d,bot)
     if interaction.type == InteractionType.MESSAGE_COMPONENT:
-      interaction.respond("poggers, message components work")
+      interaction.respond(str(interaction.user)+", you are a sussy baka!")
     elif interaction.type == InteractionType.APPLICATION_COMMAND:
       interaction.respond("POGGERS, SLASH COMMAND WORKS!!!!")
   @bot.event
