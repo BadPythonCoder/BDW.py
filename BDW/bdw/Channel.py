@@ -23,9 +23,10 @@ class Message:
   msgtype = 0
   components = [] # EH
   def __init__(self, dataraw, bot):
+    self.bot = bot
     self.id = dataraw["id"]
     self.author = dataraw["author"]["id"]
-    self.author = User(APIcall(f"/users/{self.author}", "GET", bot.auth, None))
+    self.author = User(APIcall(f"/users/{self.author}", "GET", bot.auth, None), bot)
     self.msgtype = dataraw["type"]
     self.content = dataraw["content"]
     self.timestamp = dataraw["timestamp"]
@@ -41,8 +42,8 @@ class Message:
       self.reaction = dataraw["reactions"]
     except:
       pass
-    if dataraw.__contains__("guild_id"):
-      self.guild = Guild(dataraw["guild_id"], bot)
+    # if dataraw.__contains__("guild_id"):
+    #   self.guild = Guild(dataraw["guild_id"], bot)
   def edit(self, content=None, embeds=[], components= []):
     embedsreal = []
     componentsreal = []
@@ -58,6 +59,27 @@ class Message:
       "embeds": embedsreal,
       "components": componentsreal
     })
+  def delete(self):
+    APIcall(f"/channels/{self.channel.id}/messages/{self.id}", "DELETE", self.bot.auth, {})
+    del self
+  def reply(self, content="", embeds=[], components= [], tts=False):
+    embedsreal = []
+    componentsreal = []
+    for embedobj in embeds:
+      if isinstance(embedobj, Embed):
+        embedsreal.append(embedobj.getObj())
+      else:
+        embedsreal.append(embedobj);
+    for componentobj in components:
+      componentsreal.append(componentobj.getOBJ())
+    referenceDuc = {"message_id": self.id, "channel_id": self.channel.id}
+    return Message(APIcall(f"/channels/{self.channel.id}/messages", "POST", self.bot.auth, {
+      "content": content,
+      "tts": tts,
+      "embeds": embedsreal,
+      "components": componentsreal,
+      "message_reference": referenceDuc
+    }),self.bot)
 
 class Channel:
   '''
@@ -67,32 +89,49 @@ class Channel:
     self.bot = bot
     self.raw = rawdata
     self.id = rawdata["id"]
-    self.position = rawdata["position"]
-    self.name = rawdata["name"]
-    self.nsfw = rawdata["nsfw"]
-    self.parent_id = rawdata["parent_id"]
-    self.permission_overwries = rawdata["permission_overwrites"]
     if rawdata["type"] == 0:
       self.type = "text_channel"
       self.topic = rawdata["topic"]
       self.RLPU = rawdata["rate_limit_per_user"]
       self.banner = rawdata["banner"]
+      self.nsfw = rawdata["nsfw"]
+      self.parent_id = rawdata["parent_id"]
+      self.name = rawdata["name"]
+      self.position = rawdata["position"]
+    elif rawdata["type"] == 1:
+      self.type = "DM_channel"
+      self.recipients = rawdata["recipients"]
     elif rawdata["type"] == 2:
       self.type = "voice_channel"
       self.bitrate = rawdata["bitrate"]
       self.userlimit = rawdata["user_limit"]
       self.region = rawdata["rtc_region"]
+      self.parent_id = rawdata["parent_id"]
+      self.position = rawdata["position"]
+      self.name = rawdata["name"]
+      self.nsfw = rawdata["nsfw"]
     elif rawdata["type"] == 4:
       self.type = "category_channel"
+      self.parent_id = rawdata["parent_id"]
+      self.position = rawdata["position"]
+      self.name = rawdata["name"]
     elif rawdata["type"] == 5:
       self.type = "announcement_channel"
+      self.position = rawdata["position"]
+      self.parent_id = rawdata["parent_id"]
+      self.name = rawdata["name"]
+      self.nsfw = rawdata["nsfw"]
     elif rawdata["type"] == 13:
       self.type = "stage_channel"
       self.bitrate = rawdata["bitrate"]
       self.userlimit = rawdata["user_limit"]
       self.region = rawdata["rtc_region"]
+      self.parent_id = rawdata["parent_id"]
+      self.name = rawdata["name"]
+      self.nsfw = rawdata["nsfw"]
+      self.position = rawdata["position"]
   def send(self, content=None, embeds=[], components= [], tts=False):
-    if self.type == "text_channel" or self.type == "announcement_channel":
+    if self.type == "text_channel" or self.type == "announcement_channel" or self.type == "DM_channel":
       embedsreal = []
       componentsreal = []
       for embedobj in embeds:

@@ -32,4 +32,10 @@ class Guild:
     rawchannels = APIcall(f"/guilds/{self.id}/channels", "GET", self.bot.auth, {})
     for channel in rawchannels:
       self.channels.append(Channel(channel, self.bot))
-      
+  def ban(self, person, reason="", delete_message_days=7):
+    APIcall(f"/guilds/{self.id}/bans/{person.id}", "PUT", self.bot.auth, {"reason": reason,"delete_message_days":delete_message_days})
+  def ban(self, person, reason="", delete_message_days=7):
+    APIcall(f"/guilds/{self.id}/bans/{person.id}", "PUT", self.bot.auth, {"reason": reason,"delete_message_days":delete_message_days})
+  def kick(self, person):
+    APIcall(f"/guilds/{self.id}/members/{person.id}","DELETE",self.bot.auth,{})
+    

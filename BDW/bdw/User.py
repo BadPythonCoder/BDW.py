@@ -4,9 +4,10 @@ class User:
   '''
   This is the object for a user, not usefull unles you want to have a bit of information about the account like id, username or discriminator/tag
   '''
-  def __init__(self, raw):
+  def __init__(self, raw, bot):
     self.raw = raw
     self.id = raw["id"]
+    self.bot = bot
     self.username = raw["username"]
     self.discriminator = raw["discriminator"]
     self.pubflags = raw["public_flags"]
@@ -14,5 +15,9 @@ class User:
     self.avatarhash = raw["avatar"]
     self.bannercol = raw["banner_color"]
     self.accent = raw["accent_color"]
+  def dm(self):
+    return APIcall(f"/users/@me/channels", "POST", self.bot.auth, {
+      "recipient_id": self.id
+    })
   def __repr__(self):
     return f"{self.username}#{self.discriminator}"

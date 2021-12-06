@@ -1,5 +1,6 @@
 import bdw, os, time
 from bdw.Intents import *
+from bdw.Channel import *
 from bdw.ext.slashcommands import *
 
 auth = os.environ["auth"]
@@ -36,6 +37,18 @@ def test_bot_working():
       duc = msg.channel.send("This is a test, this message will be edited in 10 secs.")
       time.sleep(10)
       duc.edit('THIS MESSAGE HAS BEEN EDITED BECAUSE 10 SECONDS HAS PASSED, YAY ')
+    if msg.content == "^deleterTest":
+      duc = msg.channel.send("THIS IS A DELETION TEST@!!1!!!")
+      time.sleep(10)
+      duc.delete()
+    if msg.content == "^reply":
+      msg.reply("ok i replied")
+    if msg.content == "^dmmeduck":
+      print(msg.author.dm())
+      print("quc")
+      dmchannel = Channel(msg.author.dm(), bot)
+      dmchannel.send("duck")
+      dmchannel.send("done")
 
   bot.start(auth)
   assert 5 == 6 # i still want all print statements to actually, well, print so that is why i do assertion error

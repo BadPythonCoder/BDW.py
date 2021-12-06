@@ -30,7 +30,7 @@ class Button:
   '''
   This hold a button object, requires a name and either an id or url, there are also buttontype and enabled which are 1 and True by default.'''
   componentOBJ = {}
-  def __init__(self, name, buttontype=1, id="", url="", enabled=True):
+  def __init__(self, name, id="", buttontype=1, url="", enabled=True):
     self.componentOBJ["label"] = name
     self.componentOBJ["type"] = 2
     self.componentOBJ["style"] = buttontype
