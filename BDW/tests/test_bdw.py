@@ -1,6 +1,5 @@
 import bdw, os, time
 from bdw.Intents import *
-from bdw.Channel import *
 from bdw.ext.slashcommands import *
 
 auth = os.environ["auth"]
@@ -18,7 +17,8 @@ def test_bot_working():
     print("interaction received")
     interaction = Interaction(d,bot)
     if interaction.type == InteractionType.MESSAGE_COMPONENT:
-      interaction.respond(str(interaction.user)+", you are a sussy baka!")
+      # interaction.respond(str(interaction.user)+", you are a sussy baka!")
+      interaction.respond("somebody clicked!!!11!1!")
     elif interaction.type == InteractionType.APPLICATION_COMMAND:
       interaction.respond("POGGERS, SLASH COMMAND WORKS!!!!")
   @bot.event
@@ -44,11 +44,8 @@ def test_bot_working():
     if msg.content == "^reply":
       msg.reply("ok i replied")
     if msg.content == "^dmmeduck":
-      print(msg.author.dm())
-      print("quc")
-      dmchannel = Channel(msg.author.dm(), bot)
+      dmchannel = msg.author.dm()
       dmchannel.send("duck")
       dmchannel.send("done")
-
   bot.start(auth)
   assert 5 == 6 # i still want all print statements to actually, well, print so that is why i do assertion error

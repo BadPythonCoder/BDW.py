@@ -1,7 +1,9 @@
 from bdw.comm import *
 from bdw.Channel import *
 from bdw.User import *
+from bdw.Utils import *
 from bdw.Guild import *
+from bdw.Message import *
 class InteractionType:
   '''
   In this class, all interactiontypes values are stored
@@ -20,20 +22,22 @@ class Interaction:
     self.bot = bot
     self.type = data["type"]
     self.appid = data["application_id"]
+    if data.__contains__("channel_id"):
+      self.channel = data["channel_id"]
+      self.channel = Channel(APIcall(f"/channels/{self.channel}", "GET", bot.auth, {}), bot)
     if data.__contains__("message"):
       self.message = data["message"]['id']
-      self.message = Message(APIcall(f"/channels/{data['channel_id']}/messages/{self.message}", "GET", bot.auth, {}), bot)
+      self.message = get_message_with_id(self.channel.id, self.message, bot)
     if data.__contains__("guild_id"):
       self.guild = data["guild_id"]
       self.guild = Guild(self.guild, bot)
     if data.__contains__("user"):
       self.user = User(data["user"])
-    if data.__contains__("channel_id"):
-      self.channel = data["channel_id"]
-      self.channel = Channel(APIcall(f"/channels/{self.channel}", "GET", bot.auth, {}), bot)
+      print("user detected")
+      print(self.user)
     if data.__contains__("data"):
       self.data = data["data"]
-  def respond(self, content, embeds, components):
+  def respond(self, content, embeds=[], components=[]):
     rembeds = []
     rcomponents = []
     for embed in embeds:

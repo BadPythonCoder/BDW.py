@@ -1,4 +1,5 @@
 from .comm import *
+import bdw
 
 class User:
   '''
@@ -16,8 +17,8 @@ class User:
     self.bannercol = raw["banner_color"]
     self.accent = raw["accent_color"]
   def dm(self):
-    return APIcall(f"/users/@me/channels", "POST", self.bot.auth, {
+    return bdw.Channel(APIcall(f"/users/@me/channels", "POST", self.bot.auth, {
       "recipient_id": self.id
-    })
+    }), self.bot)
   def __repr__(self):
     return f"{self.username}#{self.discriminator}"

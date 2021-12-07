@@ -2,6 +2,7 @@ from bdw.comm import *
 from bdw.Guild import *
 from bdw.Channel import *
 from .Interaction import *
+from bdw.Message import *
 
 class ActionRow:
   '''

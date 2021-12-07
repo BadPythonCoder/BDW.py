@@ -10,3 +10,4 @@ from .Channel import *
 from .Intents import *
 from .User import *
 from .Embed import *
+from .Message import *
