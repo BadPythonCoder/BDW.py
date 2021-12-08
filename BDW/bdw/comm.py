@@ -1,8 +1,9 @@
 import requests
+from requests.utils import quote
 
 class APIerror(Exception):
   pass
-def APIcall(URI, type, auth, payload):
+def APIcall(URI, type, auth, payload) -> dict:
   res = {}
   if type == "GET":
     res = requests.get("https://discord.com/api/v9"+URI, headers={"Authorization": "Bot "+auth}, data=payload).json()
@@ -18,3 +19,6 @@ def APIcall(URI, type, auth, payload):
   if res.__contains__("code"):
     raise APIerror(res)
   return res
+
+def URLencode(unenc) -> str:
+  return quote(unenc)
