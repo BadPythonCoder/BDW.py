@@ -33,19 +33,8 @@ def test_bot_working():
       buton = Button("BUTTONTEST1","this is a test", 1)
       actionrow = ActionRow([buton])
       msg.channel.send("testduck", components=[actionrow])
-    if msg.content == '^editingTest':
-      duc = msg.channel.send("This is a test, this message will be edited in 10 secs.")
-      time.sleep(10)
-      duc.edit('THIS MESSAGE HAS BEEN EDITED BECAUSE 10 SECONDS HAS PASSED, YAY ')
-    if msg.content == "^deleterTest":
-      duc = msg.channel.send("THIS IS A DELETION TEST@!!1!!!")
-      time.sleep(10)
-      duc.delete()
-    if msg.content == "^reply":
-      msg.reply("ok i replied")
-    if msg.content == "^dmmeduck":
-      dmchannel = msg.author.dm()
-      dmchannel.send("duck")
-      dmchannel.send("done")
+    if msg.content == "^reactions":
+      msg.react("😳")
+      msg.react("e_", True)
   bot.start(auth)
   assert 5 == 6 # i still want all print statements to actually, well, print so that is why i do assertion error

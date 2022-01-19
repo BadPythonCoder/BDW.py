@@ -1,8 +1,9 @@
 from .User import User
-from .comm import APIcall
+from .comm import APIcall, URLencode
 from .Channel import Channel
 from .Embed import Embed
-
+from threading import Thread
+from time import sleep
 
 class Message:
   '''
@@ -81,3 +82,13 @@ class Message:
       "components": componentsreal,
       "message_reference": referenceDuc
     }),self.bot)
+  def react(self, emoji, custom=False):
+    from .Utils import get_emoji_id
+    f_emoji = emoji
+    if custom:
+      f_emoji = get_emoji_id(self, self.guild, emoji, self.bot)
+      APIcall(f"/channels/{self.channel.id}/messages/{self.id}/reactions/{URLencode(f_emoji)}/@me", "PUT", self.bot.auth, {})
+    else:
+      d = Thread(target=APIcall, args=(f"/channels/{self.channel.id}/messages/{self.id}/reactions/{URLencode(f_emoji)}/@me", "PUT", self.bot.auth, {}),daemon=True)
+      d.start()
+      sleep(0.5)

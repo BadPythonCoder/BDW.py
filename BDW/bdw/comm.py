@@ -14,10 +14,13 @@ def APIcall(URI, type, auth, payload) -> dict:
   elif type == "PATCH":
     res = requests.patch("https://discord.com/api/v9"+URI, headers={"Authorization": "Bot "+auth,"Content-Type":"application/json"},json=payload).json()
   elif type == "PUT":
-    res = requests.put("https://discord.com/api/v9"+URI, headers={"Authorization": "Bot "+auth,"Content-Type":"application/json"},json=payload).json()
-  
-  if res.__contains__("code"):
-    raise APIerror(res)
+    try:
+      res = requests.put("https://discord.com/api/v9"+URI, headers={"Authorization": "Bot "+auth,"Content-Type":"application/json"},json=payload).json()
+    except:
+      res = None
+  if not res == None:
+    if res.__contains__("code"):
+      raise APIerror(res)
   return res
 
 def URLencode(unenc) -> str:
