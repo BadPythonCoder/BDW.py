@@ -10,7 +10,7 @@ class Channel:
     self.bot = bot
     self.raw = rawdata
     self.id = rawdata["id"]
-    self.rawtype = rawdata["type"]
+    rawtype = rawdata["type"]
     if rawtype == 0:
       self.type = "text_channel"
       self.topic = rawdata["topic"]
