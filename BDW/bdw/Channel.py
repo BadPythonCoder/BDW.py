@@ -15,7 +15,7 @@ class Channel:
       self.type = "text_channel"
       self.topic = rawdata["topic"]
       self.RLPU = rawdata["rate_limit_per_user"]
-      self.banner = rawdata["banner"]
+      # self.banner = rawdata["banner"]
       self.nsfw = rawdata["nsfw"]
       self.parent_id = rawdata["parent_id"]
       self.name = rawdata["name"]

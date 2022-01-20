@@ -12,9 +12,9 @@ class User:
     self.username = raw["username"]
     self.discriminator = raw["discriminator"]
     self.pubflags = raw["public_flags"]
-    self.banner = raw["banner"]
+    # self.banner = raw["banner"]
     self.avatarhash = raw["avatar"]
-    self.bannercol = raw["banner_color"]
+    # self.bannercol = raw["banner_color"]
     self.accent = raw["accent_color"]
   def dm(self):
     return bdw.Channel(APIcall(f"/users/@me/channels", "POST", self.bot.auth, {
