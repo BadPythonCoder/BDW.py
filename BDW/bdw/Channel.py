@@ -10,7 +10,8 @@ class Channel:
     self.bot = bot
     self.raw = rawdata
     self.id = rawdata["id"]
-    if rawdata["type"] == 0:
+    self.rawtype = rawdata["type"]
+    if rawtype == 0:
       self.type = "text_channel"
       self.topic = rawdata["topic"]
       self.RLPU = rawdata["rate_limit_per_user"]
@@ -19,10 +20,10 @@ class Channel:
       self.parent_id = rawdata["parent_id"]
       self.name = rawdata["name"]
       self.position = rawdata["position"]
-    elif rawdata["type"] == 1:
+    elif rawtype == 1:
       self.type = "DM_channel"
       self.recipients = rawdata["recipients"]
-    elif rawdata["type"] == 2:
+    elif rawtype == 2:
       self.type = "voice_channel"
       self.bitrate = rawdata["bitrate"]
       self.userlimit = rawdata["user_limit"]
@@ -31,18 +32,18 @@ class Channel:
       self.position = rawdata["position"]
       self.name = rawdata["name"]
       self.nsfw = rawdata["nsfw"]
-    elif rawdata["type"] == 4:
+    elif rawtype == 4:
       self.type = "category_channel"
       self.parent_id = rawdata["parent_id"]
       self.position = rawdata["position"]
       self.name = rawdata["name"]
-    elif rawdata["type"] == 5:
+    elif rawtype == 5:
       self.type = "announcement_channel"
       self.position = rawdata["position"]
       self.parent_id = rawdata["parent_id"]
       self.name = rawdata["name"]
       self.nsfw = rawdata["nsfw"]
-    elif rawdata["type"] == 13:
+    elif rawtype == 13:
       self.type = "stage_channel"
       self.bitrate = rawdata["bitrate"]
       self.userlimit = rawdata["user_limit"]
