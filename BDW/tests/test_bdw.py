@@ -1,4 +1,4 @@
-import bdw, os, time
+import bdw, os, time, threading
 from bdw.Intents import *
 from bdw.ext.slashcommands import *
 
@@ -36,5 +36,6 @@ def test_bot_working():
     if msg.content == "^reactions":
       msg.react("😳")
       msg.react("e_", True)
-  bot.start(auth)
+  t = threading.Thread(target=bot.start, args=(auth,))
+  t.start()
   assert 5 == 6 # i still want all print statements to actually, well, print so that is why i do assertion error

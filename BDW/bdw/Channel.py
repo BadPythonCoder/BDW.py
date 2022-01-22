@@ -43,6 +43,18 @@ class Channel:
       self.parent_id = rawdata["parent_id"]
       self.name = rawdata["name"]
       self.nsfw = rawdata["nsfw"]
+    elif rawtype == 10 or rawtype == 11 or rawtype==12:
+      self.type = "Thread"
+      self.id = self.rawdata["id"]
+      self.guild_id = self.rawdata["guild_id"]
+      self.parent_id = self.rawdata["parent_id"]
+      self.owner_id = self.rawdata["owner_id"]
+      self.name = self.rawdata["name"]
+      self.last_message_id = self.rawdata["last_message_id"]
+      self.message_count = self.rawdata["message_count"]
+      self.member_count = self.rawdata["member_count"]
+      self.ratelimit = self.rawdata["rate_limit_per_user"]
+      self.metadata = self.rawdata["thread_metadata"]
     elif rawtype == 13:
       self.type = "stage_channel"
       self.bitrate = rawdata["bitrate"]
